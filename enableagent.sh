@@ -86,7 +86,7 @@ sudo chown -R AzDevOps:AzDevOps $dir
 
 # install dependencies
 log_message "Installing dependencies"
-bash -x ./bin/installdependencies.sh | tee -a /var/log/enableagent.log 2>&1
+bash -x ./bin/installdependencies.sh 2>&1 | tee -a /var/log/enableagent.log
 retValue=$?
 log_message "Installation of dependencies completed"
 if [ $retValue -ne 0 ]; then
