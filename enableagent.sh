@@ -84,6 +84,13 @@ cd $dir
 sudo chmod -R 0775 $dir
 sudo chown -R AzDevOps:AzDevOps $dir
 
+# Get list of currently installed packages
+# NOTE: will fail on non-debian systems
+# TO BE REMOVED
+log_message "Getting list of currently installed packages"
+dpkg -l >> "$LOGFILE"
+
+
 # install dependencies
 log_message "Installing dependencies"
 bash -x ./bin/installdependencies.sh 2>&1 | tee -a /var/log/enableagent.log
