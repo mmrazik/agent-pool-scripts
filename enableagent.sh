@@ -86,9 +86,9 @@ sudo chown -R AzDevOps:AzDevOps $dir
 
 # install dependencies
 log_message "Installing dependencies"
-OUTPUT=$(./bin/installdependencies.sh 2>&1 > /dev/null)
+bash -x ./bin/installdependencies.sh | tee -a /var/log/enableagent.log 2>&1
 retValue=$?
-log_message "$OUTPUT"
+log_message "Installation of dependencies completed"
 if [ $retValue -ne 0 ]; then
     log_message "Dependencies installation failed"
 fi
@@ -144,3 +144,4 @@ log_message "Starting agent"
 sudo -E nice -n 0 runuser AzDevOps -c "/bin/bash $dir/run.sh $runArgs" > /dev/null 2>&1 &
 log_message "disown"
 disown
+log_message "after disown"
