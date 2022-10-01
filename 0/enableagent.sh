@@ -1,11 +1,14 @@
 #!/bin/bash
 # script for the RM extension install step
+LOGFILE="/var/log/enableagent.log"
 
 
 log_message()
 {
     message=$1
-    echo $(date -u +'%F %T') "$message"
+    timestamp="$(date -u +'%F %T')"
+    echo "$timestamp" "$message"
+    echo "$timestamp" "$message" >> "$LOGFILE"
 }
 
 decode_string() 
@@ -127,6 +130,7 @@ if [ ! -z "$proxy_url_variable"  ]; then
     fi
 fi
 
+log_message "Configuring agent"
 OUTPUT=$(sudo -E runuser AzDevOps -c "/bin/bash $dir/config.sh --unattended --url $url --pool \"$pool\" --auth pat --token $token --acceptTeeEula --replace $extra" 2>&1)
 retValue=$?
 log_message "$OUTPUT"
@@ -138,4 +142,5 @@ fi
 # run agent in the background and detach it from the terminal
 log_message "Starting agent"
 sudo -E nice -n 0 runuser AzDevOps -c "/bin/bash $dir/run.sh $runArgs" > /dev/null 2>&1 &
+log_message "disown"
 disown
