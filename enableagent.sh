@@ -33,6 +33,8 @@ runArgs=$4
 log_message "Url is $url"
 log_message "Pool is $pool"
 log_message "RunArgs is $runArgs"
+log_message "env is"
+env
 
 # get the folder where the script is executing
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
