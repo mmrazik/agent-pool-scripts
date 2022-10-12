@@ -33,7 +33,6 @@ runArgs=$4
 log_message "Url is $url"
 log_message "Pool is $pool"
 log_message "RunArgs is $runArgs"
-log_message "env is"
 
 # get the folder where the script is executing
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -89,7 +88,7 @@ sudo chown -R AzDevOps:AzDevOps $dir
 log_message "Installing dependencies"
 
 set -o pipefile
-bash -x ./bin/installdependencies.sh 2>&1 | tee -a "$LOGFILE"
+bash -x ./bin/installdependencies.sh 2>&1 > /dev/null | tee -a "$LOGFILE"
 retValue=$?
 set +o pipefile
 
@@ -98,6 +97,7 @@ if [ $retValue -ne 0 ]; then
 else
     log_message "Dependencies installation succeeded"
 fi
+
 
 # configure the build agent
 # calling bash here so the quotation marks around $pool get respected
